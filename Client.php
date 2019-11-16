@@ -66,10 +66,9 @@ class Client
     {
         //从缓存去读取
         $cacheKey = $this->getAccessTokenCacheKey($this->appKey);
-        /** @var AccessToken $accessToken */
         $accessToken = Cache::get($cacheKey);
-        if ($accessToken && $accessToken->isAvailable()) {
-            return $accessToken->getAccessToken();
+        if ($accessToken) {
+            return $accessToken;
         }
 
         $params = [
@@ -79,12 +78,10 @@ class Client
 
         $result = $this->post(self::API_ENDPOINT . '/token/get', $params, false);
 
-        $accessToken = new AccessToken($result['data']['accessToken'], $result['data']['expireTime'] - 10000);
-
         //缓存永久存储，lifetime设为0
-        Cache::set($cacheKey,$accessToken,3600);
+        Cache::set($cacheKey,$result['data']['accessToken'],604750);
 
-        return $accessToken->getAccessToken();
+        return $result['data']['accessToken'];
     }
 
     /**
