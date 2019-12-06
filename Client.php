@@ -212,7 +212,7 @@ class Client
         $response = $client ->post($url, [ 'form_params' => $params ]);
         $result = json_decode($response->getBody(), true);
         if ($result['code'] !== '200') {
-            throw new \Exception($result['msg'] . ' 错误码:' . $result['code']);
+            return ['code' => 500, 'data' => '', 'msg' => $result['msg'], 'icon' => 5, 'time' => 1500];
         }
         return $result;
     }
