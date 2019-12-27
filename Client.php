@@ -117,9 +117,9 @@ class Client
      */
     public function getCameraInfo($deviceSerial){
         $params = [
-            'deviceSerial' => $deviceSerial,
+            'Resource' => 'Cam:'.$deviceSerial.':1',
         ];
-        return $this->post(self::API_ENDPOINT . '/live/video/list', $params);
+        return $this->post(self::API_ENDPOINT . '/live/address/get', $params);
     }
 
 
